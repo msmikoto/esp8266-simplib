@@ -7,8 +7,8 @@ class RestAPI
   public:
     RestAPI(const char* ssid,const char* password);
 
-    String callAPI(const char* host, String url,int port); //retrun response if failed return null
-    String callAPISSL(const char* host, String url,int port);
+    String callAPI(const char* host, String url,int port,String method,String body); //retrun response if failed return null
+    String callAPISSL(const char* host, String url,int port,String method,String body);
 
     String responseParser(String rawString, String jsonKey);
     bool connectWiFi();

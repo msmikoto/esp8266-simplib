@@ -6,19 +6,24 @@ RestAPI::RestAPI(const char *ssid, const char *password)
     _password = (char *)password;
 }
 
-String RestAPI::callAPI(const char *host, String url, int port)
+String RestAPI::callAPI(const char *host, String url, int port, String method,String body)
 {
     WiFiClient client;
 
     if (client.connect(host, port))
     {
         String header = "";
-        header += "GET " + url + " HTTP/1.1 \n";
+        header += method + " " + url + " HTTP/1.1 \n";
         header += "Host: " + (String)host + "\n";
         header += "Accept: application/json \n";
+        header += "Content-Type: application/json\n";
         header += "User-Agent: Arduino/1.0 \n";
         header += "Connection: close \n";
-        client.println(header);
+        header +="Content-Length: "; header+=String(body.length()) + "\n";
+
+
+        Serial.println(header+body);
+        client.println(header + "\n" + body);
     }
     else
     {
@@ -36,19 +41,24 @@ String RestAPI::callAPI(const char *host, String url, int port)
     return response;
 }
 
-String RestAPI::callAPISSL(const char *host, String url, int port)
+String RestAPI::callAPISSL(const char *host, String url, int port,String method,String body)
 {
     WiFiClientSecure client;
 
     if (client.connect(host, port))
     {
         String header = "";
-        header += "GET " + url + " HTTP/1.1 \n";
+        header += method + " " + url + " HTTP/1.1 \n";
         header += "Host: " + (String)host + "\n";
         header += "Accept: application/json \n";
+        header += "Content-Type: application/json\n";
         header += "User-Agent: Arduino/1.0 \n";
         header += "Connection: close \n";
-        client.println(header);
+        header +="Content-Length: "; header+=String(body.length()) + "\n";
+
+
+        Serial.println(header+body);
+        client.println(header + "\n" + body);
     }
     else
     {
